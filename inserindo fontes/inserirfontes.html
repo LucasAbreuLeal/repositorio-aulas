@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inserindo Fontes Locais</title>
+    <style>
+        /* Defina a fonte personalizada */
+        @font-face {
+            font-family: 'Ewert Regular';
+            src: url('caminho/para/ewert-regular.woff2') format('woff2'),
+                 url('caminho/para/ewert-regular.woff') format('woff');
+            font-weight: normal;
+            font-style: normal;
+        }
+
+        /* Use a fonte personalizada no corpo */
+        body {
+            font-family: 'Ewert Regular', sans-serif;
+        }
+
+        h1 {
+            font-family: 'Ewert Regular', sans-serif; color: blue; font-size: 50pt; text-shadow: 0.2cm 0.1cm cadetblue;
+        }
+        p {
+            color: blueviolet; font-size: 25pt;
+        }
+        
+    </style>
+</head>
+<body>
+    <h1>INSERINDO FONTES</h1>
+    <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Delectus tempora soluta, obcaecati iusto incidunt modi dicta alias commodi consequuntur rem unde totam aut a dolorum inventore accusamus vitae earum quis!</p>
+</body>
+</html>

@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quitutes da Maricota</title>
+    <link rel="icon" href="imagens/logodoce.ico.png" type="image/x-icon">
+    <style>
+        body {
+            background-color: #f8bff0;
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+        header {
+            margin-top: 20px;
+        }
+        h1 {
+            font-size: 36px;
+            color: #b565a7;
+        }
+        h2 {
+            font-size: 24px;
+            color: #5a189a;
+        }
+        img {
+            margin: 10px;
+        }
+        .produtos {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            grid-gap: 20px;
+            justify-items: center;
+            margin-top: 20px;
+        }
+        .produto {
+            display: flex;
+            align-items: center;
+            text-align: left;
+            width: 90%;
+            max-width: 300px;
+            background-color: white;
+            padding: 10px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        }
+        .produto img {
+            margin-right: 20px;
+        }
+        .produto .info {
+            flex-grow: 1;
+        }
+        button {
+            background-color: #b565a7;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        button:hover {
+            background-color: #9c4d93;
+        }
+        #carrinho {
+            margin-top: 30px;
+            padding: 20px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body>
+    <img src="imagens/Design-sem-nome.ico.png" alt="logo da loja" align="left">
+    <h1>QUITUTES DA MARICOTA</h1>
+
+    <header>
+        <div class="produtos">
+            <div class="produto">
+                <img src="imagens/brigadeiro.jpeg.jpeg" alt="brigadeiro" width="100" height="100">
+                <div class="info">
+                    <h2>BANDEJA BRIGADEIRO</h2>
+                    <h2>R$ 14,99</h2>
+                    <button onclick="adicionarAoCarrinho('Bandeja Brigadeiro', 14.99)">Adicionar ao Carrinho</button>
+                </div>
+            </div>
+
+            <div class="produto">
+                <img src="imagens/beijinho.jpeg.jpeg" alt="beijinho" width="100" height="100">
+                <div class="info">
+                    <h2>BANDEJA BEIJINHO</h2>
+                    <h2>R$ 12,99</h2>
+                    <button onclick="adicionarAoCarrinho('Bandeja Beijinho', 12.99)">Adicionar ao Carrinho</button>
+                </div>
+            </div>
+
+            <div class="produto">
+                <img src="imagens/mista.jpeg.jpg" alt="mista" width="100" height="100">
+                <div class="info">
+                    <h2>BANDEJA MISTA</h2>
+                    <h2>R$ 16,99</h2>
+                    <button onclick="adicionarAoCarrinho('Bandeja Mista', 16.99)">Adicionar ao Carrinho</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="carrinho" style="display: none;">
+            <h2>Carrinho de Compras</h2>
+            <ul id="lista-carrinho"></ul>
+            <p>Total: R$ <span id="total-carrinho">0.00</span></p>
+        </div>
+
+        <button onclick="finalizarCompra()">Finalizar Compra</button>
+        <button onclick="limparCarrinho()">Limpar Carrinho</button>
+    </header>
+
+    <script>
+        let carrinho = [];
+
+        function adicionarAoCarrinho(produto, preco) {
+            carrinho.push({ produto, preco });
+            alert(produto + " foi adicionado ao carrinho!");
+            atualizarCarrinho();
+        }
+
+        function atualizarCarrinho() {
+            const carrinhoDiv = document.getElementById('carrinho');
+            const listaCarrinho = document.getElementById('lista-carrinho');
+            const totalCarrinho = document.getElementById('total-carrinho');
+
+            // Limpar lista atual
+            listaCarrinho.innerHTML = '';
+            
+            let total = 0;
+
+            // Adicionar itens ao carrinho
+            carrinho.forEach(item => {
+                const li = document.createElement('li');
+                li.textContent = item.produto + ' - R$ ' + item.preco.toFixed(2);
+                listaCarrinho.appendChild(li);
+                total += item.preco;
+            });
+
+            // Atualizar o total do carrinho
+            totalCarrinho.textContent = total.toFixed(2);
+
+            // Mostrar o carrinho
+            carrinhoDiv.style.display = 'block';
+        }
+
+        function limparCarrinho() {
+            // Esvaziar o carrinho
+            carrinho = [];
+
+            // Atualizar a exibição do carrinho
+            atualizarCarrinho();
+
+            // Ocultar o carrinho se estiver vazio
+            document.getElementById('carrinho').style.display = 'none';
+        }
+
+        function finalizarCompra() {
+            if (carrinho.length === 0) {
+                alert("Seu carrinho está vazio!");
+                return;
+            }
+
+            let mensagem = "Você comprou:\n";
+            let total = 0;
+
+            carrinho.forEach(item => {
+                mensagem += "- " + item.produto + " (R$ " + item.preco.toFixed(2) + ")\n";
+                total += item.preco;
+            });
+
+            mensagem += "\nTotal: R$ " + total.toFixed(2);
+            mensagem += "\n\nQual será a forma de pagamento? (Cartão de Débito, Crédito, Dinheiro ou Pix)";
+
+            // Formatar a mensagem para a URL do WhatsApp
+            let mensagemWhatsapp = encodeURIComponent(mensagem);
+
+            // Construir a URL do WhatsApp
+            let urlWhatsapp = "https://wa.me/5548992188739?text=" + mensagemWhatsapp;
+
+            // Redirecionar para o WhatsApp
+            window.open(urlWhatsapp, "_blank");
+        }
+    </script>
+</body>
+</html>
